@@ -15,4 +15,4 @@ class Config:
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
     
     # Admin email
-    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'admin@thaimassage.com')
+    ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'aac.techsol@tgmail.com')
