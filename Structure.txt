@@ -1,0 +1,39 @@
+thai-massage-manager/
+├── app.py
+├── models.py
+├── config.py
+├── email_service.py
+├── requirements.txt
+├── Procfile
+├── runtime.txt
+├── .env.example
+├── .gitignore
+├── README.md
+├── templates/
+│   ├── base.html
+│   ├── index.html
+│   ├── auth/
+│   │   ├── login.html
+│   │   ├── register.html
+│   │   ├── forgot_password.html
+│   │   └── reset_password.html
+│   ├── admin/
+│   │   ├── dashboard.html
+│   │   ├── users.html
+│   │   └── user_edit.html
+│   ├── user/
+│   │   ├── dashboard.html
+│   │   ├── profile.html
+│   │   ├── add_session.html
+│   │   ├── sessions.html
+│   │   └── statistics.html
+│   └── email/
+│       ├── activation_request.html
+│       ├── password_reset.html
+│       └── welcome.html
+└── static/
+    ├── css/
+    │   └── style.css
+    ├── js/
+    │   └── main.js
+    └── images/
