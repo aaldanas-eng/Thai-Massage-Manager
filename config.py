@@ -3,10 +3,10 @@ from datetime import timedelta
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///thai_massage.db'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///thai_massage.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
-    # Configuración de Email
+    # Configuración de Email (opcional)
     MAIL_SERVER = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
     MAIL_PORT = int(os.environ.get('MAIL_PORT', 587))
     MAIL_USE_TLS = True
@@ -14,8 +14,5 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_DEFAULT_SENDER')
     
-    # Admin email for activation requests
+    # Admin email
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'admin@thaimassage.com')
-    
-    # Tasa de impuestos
-    TAX_RATE = 0.21
