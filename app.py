@@ -89,7 +89,7 @@ with app.app_context():
     # Crear admin si no existe
     if not User.query.filter_by(is_admin=True).first():
         admin = User(
-            email=app.config.get('ADMIN_EMAIL', 'admin@thaimassage.com'),
+            email=app.config.get('ADMIN_EMAIL', 'aac.techsol@gmail.com'),
             first_name="Admin",
             last_name="System",
             is_active=True,
