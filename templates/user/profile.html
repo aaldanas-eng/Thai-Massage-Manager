@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Mi Perfil - Thai Massage Manager{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <h1 class="mb-4">
+            <i class="fas fa-user"></i> Mi Perfil
+        </h1>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Información Personal</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('user_profile') }}">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="first_name" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="first_name" name="first_name" 
+                                   value="{{ current_user.first_name }}" required>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="last_name" class="form-label">Apellidos</label>
+                            <input type="text" class="form-control" id="last_name" name="last_name" 
+                                   value="{{ current_user.last_name }}" required>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" value="{{ current_user.email }}" disabled>
+                        <div class="form-text">El email no se puede modificar</div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Teléfono</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" 
+                               value="{{ current_user.phone or '' }}">
+                    </div>
+                    
+                    <hr>
+                    
+                    <h6 class="mb-3">Cambiar Contraseña</h6>
+                    
+                    <div class="mb-3">
+                        <label for="new_password" class="form-label">Nueva Contraseña</label>
+                        <input type="password" class="form-control" id="new_password" name="new_password">
+                        <div class="form-text">Dejar en blanco para mantener la contraseña actual</div>
+                    </div>
+                    
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Guardar Cambios
+                        </button>
+                        <a href="{{ url_for('user_dashboard') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Mis SPAs Asignados</h5>
+            </div>
+            <div class="card-body">
+                {% set user_spas = current_user.spas|selectattr('is_active') %}
+                {% if user_spas|length > 0 %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>SPA</th>
+                                <th>Precio/Hora</th>
+                                <th>Dirección</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user_spa in user_spas %}
+                            <tr>
+                                <td>{{ user_spa.spa.name }}</td>
+                                <td>{{ "%.2f"|format(user_spa.price_per_hour) }}€</td>
+                                <td>{{ user_spa.spa.address }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">No tienes SPAs asignados activos.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

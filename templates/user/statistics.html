@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block title %}Estadísticas - Thai Massage Manager{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="fas fa-chart-bar"></i> Mis Estadísticas
+        </h1>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5 class="card-title mb-0">Filtros</h5>
+    </div>
+    <div class="card-body">
+        <form method="GET" action="{{ url_for('user_statistics') }}">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <label for="spa" class="form-label">SPA</label>
+                    <select class="form-select" id="spa" name="spa">
+                        <option value="all">Todos los SPAs</option>
+                        {% for user_spa in user_spas %}
+                        <option value="{{ user_spa.spa_id }}" 
+                                {{ 'selected' if filters.spa == user_spa.spa_id|string }}>
+                            {{ user_spa.spa.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="col-md-3 mb-3">
+                    <label for="date_from" class="form-label">Desde</label>
+                    <input type="date" class="form-control" id="date_from" name="date_from" 
+                           value="{{ filters.date_from or '' }}">
+                </div>
+                
+                <div class="col-md-3 mb-3">
+                    <label for="date_to" class="form-label">Hasta</label>
+                    <input type="date" class="form-control" id="date_to" name="date_to" 
+                           value="{{ filters.date_to or '' }}">
+                </div>
+                
+                <div class="col-md-3 mb-3">
+                    <label for="group_by" class="form-label">Agrupar por</label>
+                    <select class="form-select" id="group_by" name="group_by">
+                        <option value="month" {{ 'selected' if filters.group_by == 'month' }}>Mes</option>
+                        <option value="year" {{ 'selected' if filters.group_by == 'year' }}>Año</option>
+                        <option value="spa" {{ 'selected' if filters.group_by == 'spa' }}>SPA</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-filter"></i> Aplicar Filtros
+                </button>
+                <a href="{{ url_for('user_statistics') }}" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Limpiar
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-primary">
+            <div class="card-body text-center">
+                <h4 class="card-title">{{ stats.total_sessions }}</h4>
+                <p class="card-text">Sesiones</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-success">
+            <div class="card-body text-center">
+                <h4 class="card-title">{{ "%.1f"|format(stats.total_hours) }}</h4>
+                <p class="card-text">Horas</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-info">
+            <div class="card-body text-center">
+                <h4 class="card-title">{{ "%.2f"|format(stats.total_earnings) }}€</h4>
+                <p class="card-text">Total Bruto</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 mb-4">
+        <div class="card text-white bg-warning">
+            <div class="card-body text-center">
+                <h4 class="card-title">{{ "%.2f"|format(stats.net_earnings) }}€</h4>
+                <p class="card-text">Neto ( -21% )</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Ganancias por SPA</h5>
+            </div>
+            <div class="card-body">
+                {% if stats.earnings_by_spa %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>SPA</th>
+                                <th>Ganancias</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for spa_name, earnings in stats.earnings_by_spa.items() %}
+                            <tr>
+                                <td>{{ spa_name }}</td>
+                                <td>{{ "%.2f"|format(earnings) }}€</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted text-center py-3">No hay datos para mostrar</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Desglose de Impuestos</h5>
+            </div>
+                <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <h4>{{ "%.2f"|format(stats.total_earnings) }}€</h4>
+                        <p class="text-muted small">Total Bruto</p>
+                    </div>
+                    <div class="col-6">
+                        <h4>{{ "%.2f"|format(stats.tax_amount) }}€</h4>
+                        <p class="text-muted small">Impuestos (21%)</p>
+                    </div>
+                </div>
+                <hr>
+                <div class="text-center">
+                    <h3 class="text-success">{{ "%.2f"|format(stats.net_earnings) }}€</h3>
+                    <p class="text-muted">Total Neto</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
