@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #28a745; color: white; padding: 20px; text-align: center; }
+        .content { background: #f8f9fa; padding: 20px; }
+        .footer { background: #343a40; color: white; padding: 10px; text-align: center; }
+        .features { margin: 20px 0; }
+        .feature-item { background: white; padding: 10px; margin: 10px 0; border-left: 4px solid #28a745; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Thai Massage Manager</h1>
+            <h2>¡Bienvenido al Sistema!</h2>
+        </div>
+        
+        <div class="content">
+            <p>Hola <strong>{{ user_name }}</strong>,</p>
+            
+            <p>Nos complace informarte que tu cuenta ha sido activada exitosamente en el sistema Thai Massage Manager.</p>
+            
+            <p>Ahora puedes acceder a todas las funcionalidades de la plataforma:</p>
+            
+            <div class="features">
+                <div class="feature-item">
+                    <strong>📊 Registrar sesiones de trabajo</strong>
+                    <p>Lleva el control de tus horas trabajadas en cada SPA</p>
+                </div>
+                
+                <div class="feature-item">
+                    <strong>💰 Control de ganancias</strong>
+                    <p>Visualiza tus ingresos con cálculo automático de impuestos</p>
+                </div>
+                
+                <div class="feature-item">
+                    <strong>📈 Estadísticas detalladas</strong>
+                    <p>Analiza tu rendimiento con filtros por fechas y SPAs</p>
+                </div>
+            </div>
+            
+            <p>Para comenzar, simplemente inicia sesión en el sistema:</p>
+            
+            <p style="text-align: center; margin: 30px 0;">
+                <a href="{{ url_for('login', _external=True) }}" 
+                   style="background: #28a745; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;">
+                    Iniciar Sesión
+                </a>
+            </p>
+            
+            <p>Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos.</p>
+            
+            <p>¡Te deseamos mucho éxito en tu trabajo!</p>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2024 Thai Massage Manager. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>

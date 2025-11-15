@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #007bff; color: white; padding: 20px; text-align: center; }
+        .content { background: #f8f9fa; padding: 20px; }
+        .footer { background: #343a40; color: white; padding: 10px; text-align: center; }
+        .user-details { background: white; padding: 15px; margin: 15px 0; border-left: 4px solid #007bff; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Thai Massage Manager</h1>
+            <h2>Solicitud de Activación de Usuario</h2>
+        </div>
+        
+        <div class="content">
+            <p>Hola Administrador,</p>
+            
+            <p>Se ha registrado un nuevo usuario en el sistema que requiere activación:</p>
+            
+            <div class="user-details">
+                <h3>Información del Usuario:</h3>
+                <p><strong>Nombre:</strong> {{ user_data.first_name }} {{ user_data.last_name }}</p>
+                <p><strong>Email:</strong> {{ user_data.email }}</p>
+                <p><strong>Teléfono:</strong> {{ user_data.phone or 'No proporcionado' }}</p>
+                <p><strong>Fecha de registro:</strong> {{ now().strftime('%d/%m/%Y %H:%M') }}</p>
+            </div>
+            
+            <p>Por favor, accede al panel de administración para revisar y activar esta cuenta.</p>
+            
+            <p style="text-align: center; margin: 30px 0;">
+                <a href="{{ url_for('admin_users', _external=True) }}" 
+                   style="background: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px;">
+                    Ir al Panel de Administración
+                </a>
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>&copy; 2024 Thai Massage Manager. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</body>
+</html>
