@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto text-center">
+        <div class="hero-section py-5">
+            <h1 class="display-4 mb-4">
+                <i class="fas fa-spa text-primary"></i><br>
+                Thai Massage Manager
+            </h1>
+            <p class="lead mb-4">Sistema de gestión profesional para terapeutas de masaje tailandés</p>
+            
+            {% if not current_user.is_authenticated %}
+            <div class="mt-5">
+                <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg me-3">
+                    <i class="fas fa-user-plus"></i> Registrarse
+                </a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                </a>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-chart-line fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Control de Ingresos</h5>
+                        <p class="card-text">Gestiona y visualiza tus ganancias por spa, fechas y periodos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-calendar-alt fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Seguimiento de Sesiones</h5>
+                        <p class="card-text">Registra todas tus sesiones con detalles completos</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <i class="fas fa-calculator fa-3x text-primary mb-3"></i>
+                        <h5 class="card-title">Cálculo Automático</h5>
+                        <p class="card-text">Cálculo automático de impuestos y ganancias netas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
