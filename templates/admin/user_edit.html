@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Usuario - Thai Massage Manager{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <h1 class="mb-4">
+            <i class="fas fa-user-edit"></i> Editar Usuario: {{ user.first_name }} {{ user.last_name }}
+        </h1>
+    </div>
+</div>
+
+<form method="POST" action="{{ url_for('admin_edit_user', user_id=user.id) }}">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Información Personal</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="first_name" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" 
+                               value="{{ user.first_name }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="last_name" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" 
+                               value="{{ user.last_name }}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Teléfono</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" 
+                               value="{{ user.phone or '' }}">
+                    </div>
+                    
+                    <div class="mb-3 form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="is_active" name="is_active" 
+                               {{ 'checked' if user.is_active }}>
+                        <label class="form-check-label" for="is_active">Usuario Activo</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Configuración de SPAs y Precios</h5>
+                </div>
+                <div class="card-body">
+                    {% for spa in spas %}
+                    <div class="border-bottom pb-3 mb-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="mb-0">{{ spa.name }}</h6>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input spa-toggle" type="checkbox" 
+                                       id="spa_active_{{ spa.id }}" name="spa_active_{{ spa.id }}"
+                                       {{ 'checked' if user.spas|selectattr('spa_id', 'equalto', spa.id)|selectattr('is_active')|first }}>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-2">
+                            <label for="price_{{ spa.id }}" class="form-label small">Precio por Hora (€)</label>
+                            <input type="number" step="0.01" min="0" class="form-control form-control-sm price-input" 
+                                   id="price_{{ spa.id }}" name="price_{{ spa.id }}"
+                                   value="{{ user.spas|selectattr('spa_id', 'equalto', spa.id)|map(attribute='price_per_hour')|first or '0' }}">
+                        </div>
+                        
+                        <div class="small text-muted">
+                            {{ spa.address }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Guardar Cambios
+                </button>
+                <a href="{{ url_for('admin_users') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Habilitar/deshabilitar inputs de precio según el toggle del spa
+    const spaToggles = document.querySelectorAll('.spa-toggle');
+    spaToggles.forEach(toggle => {
+        const spaId = toggle.id.split('_')[2];
+        const priceInput = document.getElementById(`price_${spaId}`);
+        
+        toggle.addEventListener('change', function() {
+            priceInput.disabled = !this.checked;
+        });
+        
+        // Estado inicial
+        priceInput.disabled = !toggle.checked;
+    });
+});
+</script>
+{% endblock %}
